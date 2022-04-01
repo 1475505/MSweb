@@ -1,0 +1,8 @@
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="form-group">
+        上传文件<br/><br/>
+        <input type="file" name="file">
+        <input type="text" name="instr" value="编号">
+        <input type="submit" value="转换">
+    </div>
