@@ -1,4 +1,5 @@
 <form method="post" enctype="multipart/form-data">
+    <title>梦声智能变奏系统</title>
     {% csrf_token %}
     <div class="form-group">
         上传文件<br/><br/>
@@ -6,9 +7,13 @@
         <input type="text" name="instr" value="编号">
         <input type="submit" value="转换">
         <br/>=== 使用说明 ===<br/>
-        编号 0-127 代表转`mid`文件为对应乐器的类型，
-        <br/>=== 由于服务器带宽低，以下功能一般不开放 ===<br/>
-        编号200将上传的mid文件转换为`wav`文件
+        编号 1-128 代表转`mid`文件为对应乐器的类型，参<a href="https://baike.baidu.com/item/MIDI/217824?fr=aladdin#8_2">乐器编号</a>
+        <br/>
+        编号200将上传的mid文件转换为`mp3`文件。【请不要使用IDM等下载器】
         <br/>
         负值：上传`wav`文件，-x表示升调x，返回。【需交互环境，暂不植入】
     </div>
+</form>
+ <br />上次处理的音符可视化统计图（仅开发环境开放）<br/>
+{% load static %}
+<img src="{% static 'MS/notes_frequency.jpg' %}" alt="仅在开发环境下开放" width="90%">

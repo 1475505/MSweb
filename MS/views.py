@@ -8,7 +8,7 @@ from musicpy import *
 from musicpy.sampler import *
 # Imaginary function to handle an uploaded file.
 from .process import handle_uploaded_file
-import matplotlib as plt
+import matplotlib.pyplot as plt
 
 
 def Visualization(filepath):
@@ -36,21 +36,23 @@ def Visualization(filepath):
     d2 = list(notes_set.values())
     plt.figure(figsize=(32, 10))
     plt.bar(d1, d2)
-    plt.savefig('notes_frequency.jpg', dpi=400, bbox_inches='tight')
+    plt.savefig('MS/static/MS/notes_frequency.jpg', dpi=80, bbox_inches='tight')
 
 
 def upload_file(request):
+    file = open("MS/templates/error.html", 'rb')
     if request.method == 'POST':
         form = UploadFileForm(request.POST, request.FILES)
         print(request.POST)
         print(request.FILES)
         f = request.FILES['file']
         instr = int(request.POST['instr'])
-        if instr >= 0:
+        if instr > 0:
             with open('in.mid', 'wb+') as destination:
                 for chunk in f.chunks():
                     destination.write(chunk)
-            if instr <= 127:
+            Visualization('in.mid')
+            if instr <= 128:
                 a = read('in.mid')
                 a.clear_program_change()
                 a.change_instruments([instr])
@@ -61,13 +63,13 @@ def upload_file(request):
                 test = sampler(1)
                 test.load(0, 'MS/sf2/8Rock11e.sf2')
                 test.export(inPiece,
-                            mode='wav',
+                            mode='mp3',
                             action='export',
-                            filename='out.wav',
+                            filename='out.mp3',
                             bpm=None,
                             export_args={},
                             show_msg=1)
-                file = open('out.wav', 'rb')
+                file = open('out.mp3', 'rb')
         elif instr < 0:
             pass
         response = FileResponse(file)
